@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment Page</title>
+  <link rel="stylesheet" href="/css/payment.css">
+</head>
+<body>
+  <div class="payment-container">
+    <div class="payment-header">
+      <h2>Complete Your Payment</h2>
+      <p>Choose a subscription plan and complete your payment via eSewa.</p>
+    </div>
+
+    <form action="/payment" method="POST" class="payment-form">
+      <!-- User ID -->
+      <div class="form-group">
+        <label for="userId">User ID</label>
+        <input type="text" id="userId" name="userId" placeholder="Enter your User ID" required>
+      </div>
+
+      <!-- Plan Selection -->
+      <div class="form-group">
+        <label for="planId">Choose a Plan</label>
+        <select id="planId" name="planId" required>
+          <option value="" disabled selected>Select Plan</option>
+          <option value="plan1">Basic - 1 Month</option>
+          <option value="plan2">Standard - 3 Months</option>
+          <option value="plan3">Premium - 6 Months</option>
+          <option value="plan4">Ultimate - 12 Months</option>
+        </select>
+      </div>
+
+      <!-- Transaction UUID (Can be generated via backend or frontend) -->
+      <div class="form-group">
+        <label for="transactionUuid">Transaction UUID</label>
+        <input type="text" id="transactionUuid" name="transactionUuid" placeholder="Transaction UUID" required>
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" class="submit-btn">Proceed to Payment</button>
+    </form>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 MovieStream. All rights reserved.</p>
+  </footer>
+  <script>
+    // Example JavaScript code to handle form submission or other interactions
+document.querySelector('form').addEventListener('submit', function (event) {
+    const userId = document.getElementById('userId').value;
+    const planId = document.getElementById('planId').value;
+    const transactionUuid = document.getElementById('transactionUuid').value;
+  
+    // Add any client-side validation logic here (optional)
+  
+    console.log(`User ID: ${userId}, Plan ID: ${planId}, Transaction UUID: ${transactionUuid}`);
+  });
+  
+  </script>
+</body>
+</html>

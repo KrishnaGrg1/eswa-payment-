@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Payment Verification</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 600px;
+      margin: 50px auto;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      text-align: center;
+    }
+    h1 {
+      color: #4caf50;
+    }
+    h1.error {
+      color: #ff5722;
+    }
+    p {
+      font-size: 16px;
+      margin: 10px 0;
+    }
+    .details {
+      margin-top: 20px;
+      text-align: left;
+    }
+    .details h3 {
+      margin-bottom: 10px;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 5px;
+    }
+    .details ul {
+      list-style: none;
+      padding: 0;
+    }
+    .details ul li {
+      margin: 5px 0;
+      font-size: 14px;
+    }
+    .btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #4caf50;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+    .btn:hover {
+      background: #45a049;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>eSewa Payment Verification</h1>
+    <form id="paymentForm" action="https://rc-epay.esewa.com.np/api/epay/main/v2/form" method="POST" target="_blank">
+      <table>
+        <tbody>
+          <tr>
+            <td><strong>Amount:</strong></td>
+            <td><input type="text" id="amount" name="amount" value="500" required /></td>
+          </tr>
+          <tr>
+            <td><strong>Tax Amount:</strong></td>
+            <td><input type="text" id="tax_amount" name="tax_amount" value="0" required /></td>
+          </tr>
+          <tr>
+            <td><strong>Total Amount:</strong></td>
+            <td><input type="text" id="total_amount" name="total_amount" value="500" required /></td>
+          </tr>
+          <tr>
+            <td><strong>Transaction UUID:</strong></td>
+            <td><input type="text" id="transaction_uuid" name="transaction_uuid" value="790fa611c1823464e3c2a6f" required /></td>
+          </tr>
+          <tr>
+            <td><strong>Product Code:</strong></td>
+            <td><input type="text" id="product_code" name="product_code" value="EPAYTEST" required /></td>
+          </tr>
+          <tr>
+            <td><strong>Product Service Charge:</strong></td>
+            <td><input type="text" id="product_service_charge" name="product_service_charge" value="0" required /></td>
+          </tr>
+          <tr>
+            <td><strong>Product Delivery Charge:</strong></td>
+            <td><input type="text" id="product_delivery_charge" name="product_delivery_charge" value="0" required /></td>
+          </tr>
+          <tr>
+            <td><strong>Success URL:</strong></td>
+            <td><input type="text" id="success_url" name="success_url" value="http://localhost:8001/payment/callback" required /></td>
+          </tr>
+          <tr>
+            <td><strong>Failure URL:</strong></td>
+            <td><input type="text" id="failure_url" name="failure_url" value="https://developer.esewa.com.np/failure" required /></td>
+          </tr>
+          <tr>
+            <td><strong>Signed Field Names:</strong></td>
+            <td><input type="text" id="signed_field_names" name="signed_field_names" value="total_amount,transaction_uuid,product_code" required /></td>
+          </tr>
+          <tr>
+            <td><strong>Token:</strong></td>
+            <td><input type="text" id="signature" name="signature" value="generated-signature-here" required />
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Secret Key:</strong></td>
+            <td><input type="text" id="secret" name="secret" value="8gBm/:&EnhH.1/q" required /></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <input type="submit" value=" Pay with eSewa " style="background-color: #60bb46; color: white; border: none; padding: 10px 20px; font-weight: bold; cursor: pointer; border-radius: 5px;" />
+    </form>
+  </div>
+
+</body>
+</html>
