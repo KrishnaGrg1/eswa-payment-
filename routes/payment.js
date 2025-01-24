@@ -9,11 +9,7 @@ import esewafunction from "../services/eswepayment.js";
 const paymentRouter = Router();
 
 // Route to initiate payment
-paymentRouter.post(
-  "",
-  paymentController.initiatePayment,
-  validate(validationSchema.addpayment)
-);
+paymentRouter.post("/", paymentController.initiatePayment);
 
 // Route to handle eSewa callback
 paymentRouter.get("/callback",paymentController.handlePayment);

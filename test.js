@@ -1,14 +1,21 @@
-import jwt from "jsonwebtoken";
 
-// const token=jwt.verify("yJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b3RhbF9hbW91bnQiOjEwMDAsInRyYW5zYWN0aW9uX3V1aWQiOiI2NzkwZmE2MTFjMTgyMzQ2NGUzYzJhNmYiLCJwcm9kdWN0X2NvZGUiOiJFUEFZVEVTVCIsImlhdCI6MTczNzU1NDUyOX0.mt8wx1WrTjv26mYCpLeqO3cDAWHh1vcJs-mTmpeclyk","8gBm/:&EnhH.1/q");
+import crypto from 'crypto'
+const secretKey = "mySecretKey123";
+const data =
+  "transaction_code=ABC123,status=SUCCESS,total_amount=1000.00,transaction_uuid=XYZ789,product_code=PC001";
 
-// console.log(token)
+const hash = crypto
+  .createHmac("sha256", secretKey)
+  .update(data)
+  .digest("base64");
+
+console.log("Generated Hash:", hash);
 
 
-let encodedData="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b3RhbF9hbW91bnQiOjEwMDAsInRyYW5zYWN0aW9uX3V1aWQiOiI2NzkwZmE2MTFjMTgyMzQ2NGUzYzJhNmYiLCJwcm9kdWN0X2NvZGUiOiJFUEFZVEVTVCIsImlhdCI6MTczNzU1NDUyOX0.mt8wx1WrTjv26mYCpLeqO3cDAWHh1vcJs-mTmpeclyk"
+// Decode Base64
+const decodedBuffer = Buffer.from(hash, "base64");
+console.log("Decoded Hash (as bytes):", decodedBuffer);
 
-let secretKey="8gBm/:&EnhH.1/q"
-
-const to=jwt.verify(encodedData, secretKey);
-
-console.log(to)
+// If you want the hexadecimal representation:
+const decodedHex = decodedBuffer.toString("hex");
+console.log("Decoded Hash (as hex):", decodedHex);

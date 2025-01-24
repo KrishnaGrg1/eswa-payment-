@@ -5,42 +5,48 @@ import User from "../models/user.js";
 import esewafunction from "../services/eswepayment.js"; // Import the esewafunction
 
 const initiatePayment = catchAsync(async (req, res) => {
-  const { userId, planId} = req.body;
+  const { userId, planId } = req.body;
+  console.log(planId, userId);
 
-  // Validate if the subscription plan exists
-  const plan = await SubscriptionPlan.findById(planId); // Use `findById` to match `_id`
-  if (!plan) {
-    throw new Error("Subscription plan not found.");
+  try {
+    // Validate if the subscription plan exists
+    const plan = await SubscriptionPlan.findById(planId); // Use `findById` to match `_id`
+    if (!plan) {
+      return res.status(404).json({ success: false, error: "Subscription plan not found." });
+    }
+
+    // Validate if the user exists
+    const existingUser = await User.findById(userId); // Use `findById` to match `_id`
+    if (!existingUser) {
+      return res.status(404).json({ success: false, error: "User not found." });
+    }
+
+    // Create a new payment record with status "pending"
+    const payment = new Payment({
+      user_id: userId,
+      plan_id: planId,
+      amount: plan.price,
+      status: "pending",
+    });
+    await payment.save(); // Save the payment record
+
+    // Initiate the payment with eSewa service and get the hash
+    const paymentInitiate = await esewafunction.getEsewaPaymentHash({
+      amount: plan.price,
+      transaction_uuid: payment._id.toString(),
+    });
+
+    // Respond with payment details and initiation response from eSewa
+    res.json({
+      success: true,
+      paymentdata: paymentInitiate, // Payment initiation response from eSewa
+      payment, // Payment object saved in the database
+    });
+
+  } catch (error) {
+    console.error("Error initiating payment:", error);
+    res.status(500).json({ success: false, error: "An error occurred while initiating payment." });
   }
-
-  // Validate if the user exists
-  const existingUser = await User.findById(userId); // Use `findById` to match `_id`
-  if (!existingUser) {
-    throw new Error("User not found");
-  }
-
-  // Create a new payment record with status "pending"
-  const payment = new Payment({
-    user_id: userId,
-    plan_id: planId,
-    amount: plan.price, // Corrected to `plan.price`
-    status: "pending"
-  });
-  await payment.save(); // Save the payment
-
-  // Initiate the payment with eSewa service and get the hash
-  const paymentInitiate = await esewafunction.getEsewaPaymentHash({
-    amount: plan.price, // Corrected to `plan.price`
-    transaction_uuid: payment._id
-  });
-
-//   Respond with payment details
-  res.json({
-    success: true,
-    paymentdata: paymentInitiate, // Payment initiation response from eSewa
-    payment // Payment object saved in database
-  });
-
 });
 
 const handlePayment = catchAsync(async (req, res) => {
